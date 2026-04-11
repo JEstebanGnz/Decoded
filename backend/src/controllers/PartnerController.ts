@@ -1,63 +1,52 @@
 import { Request, Response } from "express"
+import { PartnerService } from "../services/PartnerService"
 
 export class PartnerController {
 
+    private service: PartnerService
 
-    async create(req: Request, res: Response): Promise<void>{
-       
-        try {
-
-        const {name, age, likes, dislikes, notes} = req.body    
-            
-        if (!name || !age){
-            res.status(400).json({error: "name and age are required"})
-            return
-        }
-
-         const partner = {
-                id: crypto.randomUUID(),
-                userId: "mock-user-id",
-                name,
-                age,
-                likes: likes || [],
-                dislikes: dislikes || [],
-                notes,
-                createdAt: new Date()
-        }
-
-        res.status(201).json(partner)
-
-        } catch (error) {
-            res.status(500).json({error: "Internal server error"})
-        }
+    constructor() {
+        this.service = new PartnerService()
     }
 
-    async getById(req: Request, res:Response): Promise<void>{
+    async create(req: Request, res: Response): Promise<void> {
 
         try {
-            
-             const {id} = req.params
 
-         // Mock por ahora
-            const partner = {
-                id,
-                userId: "mock-user-id",
-                name: "Katherin",
-                age: 25,
-                likes: ["chocolate", "películas"],
-                dislikes: ["ruido"],
-                createdAt: new Date()
+            const { name, age, likes, dislikes, notes } = req.body
+
+            if (!name || !age) {
+                res.status(400).json({ error: "name and age are required" })
+                return
             }
 
-            res.status(200).json(partner)
+            const partner = await this.service.create(
+                {
+                    userId: "43839a64-f841-4bd8-8dce-a85b6a29dd36",
+                    name,
+                    age,
+                    likes: likes || [],
+                    dislikes: dislikes || [],
+                    notes
+                }
+            )
+
+            res.status(201).json(partner)
 
         } catch (error) {
-            res.status(500).json({error: "Internal server error"})
+            console.error("Error creating partner:", error)
+            res.status(500).json({ error: "Internal server error" })
         }
-       
-
     }
 
+    async getById(req: Request, res: Response): Promise<void> {
 
-
+        try {
+            const id = req.params.id as string
+            const partner = await this.service.getById(id)
+            res.status(200).json(partner)
+        } catch (error) {
+            res.status(500).json({ error: "Partner not found" })
+        }
+    }
 }
