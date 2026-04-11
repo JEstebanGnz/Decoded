@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
+import partnerRoutes from "./routes/partnerRoutes"
 
 dotenv.config()
 
@@ -16,6 +17,9 @@ app.use(express.json())
 app.get("/health", (req, res) => {
     res.json({ status: "ok", message: "Decoded API is running" })
 })
+
+app.use("/api/partners", partnerRoutes)
+
 
 app.listen(PORT, () => {
     console.log(`🚀 Decoded API running on port ${PORT}`)
