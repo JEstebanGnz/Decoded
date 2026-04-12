@@ -12,6 +12,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum CyclePhase {
+  menstrual
+  follicular
+  ovulation
+  luteal
+}
+
 model User {
   id        String    @id @default(uuid())
   googleId  String    @unique
@@ -42,6 +49,6 @@ model CycleEntry {
   partner      Partner  @relation(fields: [partnerId], references: [id])
   startDate    DateTime
   cycleLength  Int      @default(28)
-  currentPhase String
+  currentPhase CyclePhase
   createdAt    DateTime @default(now())
 }

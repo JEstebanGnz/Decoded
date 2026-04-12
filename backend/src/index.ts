@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
 import partnerRoutes from "./routes/partnerRoutes"
+import cycleEntryRoutes from "./routes/cycleEntryRoutes"
 
 dotenv.config()
 
@@ -19,7 +20,7 @@ app.get("/health", (req, res) => {
 })
 
 app.use("/api/partners", partnerRoutes)
-
+app.use("/api/cycles", cycleEntryRoutes)
 
 app.listen(PORT, () => {
     console.log(`🚀 Decoded API running on port ${PORT}`)
