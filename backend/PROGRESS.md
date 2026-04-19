@@ -16,6 +16,7 @@
 - ✅ GET /api/partners/:id — obtiene partner
 - ✅ POST /api/cycles — registra ciclo y calcula fase automáticamente
 - ✅ GET /api/cycles/:partnerId/status — retorna fase actual + descripción + día
+- ✅ GET /api/recommendations/:partnerId — genera 2 recomendaciones con Claude Haiku
 
 ## Próximo paso
 Integrar Claude API (Haiku) para generar recomendaciones personalizadas basadas en:
@@ -33,6 +34,9 @@ Integrar Claude API (Haiku) para generar recomendaciones personalizadas basadas 
 - Prisma: schema, migraciones, queries, enums
 - Arquitectura: Clean Architecture por capas
 - Git: commits, push, pull
+- Anthropic SDK: messages.create, roles (system, user, assistant), tokens, modelos
+- TypeScript: type assertions, narrowing, tipos de Prisma
+- Prompt engineering: separación system/user, formato de respuesta
 
 ## Estructura del proyecto
 decoded/
