@@ -9,7 +9,7 @@ export default function Home() {
   const handleGetRecommendation = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3001/api/recommendations/bfd7f86e-a0af-4895-bf0d-a30e16ee5105");
+      const response = await fetch("http://localhost:3001/api/recommendations/partner-test-001");
       const data = await response.json();
       setRecommendations(data.recommendations);
     } catch (error) {
