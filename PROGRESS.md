@@ -18,11 +18,18 @@
 - ✅ GET /api/cycles/:partnerId/status — retorna fase actual + descripción + día
 - ✅ GET /api/recommendations/:partnerId — genera 2 recomendaciones con Claude Haiku
 
-## Próximo paso
-Integrar Claude API (Haiku) para generar recomendaciones personalizadas basadas en:
-- Fase actual del ciclo
-- Likes y dislikes de la pareja
-- Edad y notas del perfil
+## Estado actual del frontend
+- ✅ Next.js configurado con TypeScript y Tailwind v4
+- ✅ Design system definido (paleta pastel elegante, mobile-first)
+- ✅ Dashboard con fase actual y recomendaciones
+- ✅ Consumo de Claude API desde el frontend
+- ✅ Variables de entorno con NEXT_PUBLIC_API_URL
+
+- ✅ Google OAuth configurado con next-auth
+- ✅ JWT guardado en cookie automáticamente
+- ✅ Middleware de protección de rutas
+- ✅ Página de login
+- ✅ Sesión del usuario disponible en el frontend
 
 ## Conceptos aprendidos
 - JavaScript: filter, map, some, reduce, destructuring, spread, ?., ??
@@ -37,6 +44,14 @@ Integrar Claude API (Haiku) para generar recomendaciones personalizadas basadas 
 - Anthropic SDK: messages.create, roles (system, user, assistant), tokens, modelos
 - TypeScript: type assertions, narrowing, tipos de Prisma
 - Prompt engineering: separación system/user, formato de respuesta
+- Next.js: App Router, Server vs Client Components, "use client"
+- React: useState, hooks, re-rendering, event handlers
+- CSS: Mobile-first, breakpoints, jerarquía visual
+- Tailwind v4: @theme, tokens personalizados
+- Fetch API: peticiones HTTP desde el navegador
+- Env vars: NEXT_PUBLIC_ en Next.js
+- DB: seeding con Prisma, upsert
+- PostgreSQL: instalación con Homebrew, configuración local
 
 ## Estructura del proyecto
 decoded/
