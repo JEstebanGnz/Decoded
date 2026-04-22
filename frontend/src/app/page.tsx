@@ -1,15 +1,17 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 export default function Home() {
+  const { data: session } = useSession()
   const [recommendations, setRecommendations] = useState<{ title: string; description: string }[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleGetRecommendation = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3001/api/recommendations/partner-test-001");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recommendations/partner-test-001`);
       const data = await response.json();
       setRecommendations(data.recommendations);
     } catch (error) {
@@ -25,6 +27,7 @@ export default function Home() {
       {/* Header */}
       <header className="bg-surface border-b border-border-soft px-4 py-4">
         <h1 className="text-xl font-bold text-text-primary">Decoded 🤍</h1>
+        <p className="text-sm text-text-secondary">Hola, {session?.user?.name?.split(" ")[0]}</p>
       </header>
 
       {/* Contenido principal */}
