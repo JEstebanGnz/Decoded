@@ -8,5 +8,9 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "types": ["node"]
-  }
+  },
+  "files": [
+    "src/index.ts",
+    "src/types/express.d.ts"
+  ]
 }

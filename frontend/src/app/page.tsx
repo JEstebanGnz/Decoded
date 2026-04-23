@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { fetchWithAuth } from "@/lib/api";
 
 export default function Home() {
   const { data: session } = useSession()
@@ -11,8 +12,7 @@ export default function Home() {
   const handleGetRecommendation = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recommendations/partner-test-001`);
-      const data = await response.json();
+      const data = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/api/recommendations/partner-test-001`);
       setRecommendations(data.recommendations);
     } catch (error) {
       console.error("Error al obtener recomendación:", error);

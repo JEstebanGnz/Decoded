@@ -31,6 +31,11 @@
 - ✅ Página de login
 - ✅ Sesión del usuario disponible en el frontend
 
+- ✅ Middleware de autenticación en Express
+- ✅ JWT generado en Next.js y verificado en Express
+- ✅ req.user disponible en todos los controllers
+- ✅ Rutas protegidas con authenticate
+
 ## Conceptos aprendidos
 - JavaScript: filter, map, some, reduce, destructuring, spread, ?., ??
 - JavaScript: clases, herencia, super, prototype
