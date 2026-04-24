@@ -2,10 +2,10 @@
 
 ## Stack
 - Backend: Node.js + Express + TypeScript
-- Frontend: Next.js (pendiente)
+- Frontend: Next.js + TypeScript + Tailwind v4
+- Auth: Google OAuth con next-auth ✅
+- AI: Claude API — Haiku ✅
 - DB: PostgreSQL con Prisma 5
-- Auth: Google OAuth (pendiente)
-- AI: Claude API — Haiku (próximo paso)
 
 ## Estado actual del backend
 - ✅ Express configurado con CORS y dotenv
@@ -36,6 +36,11 @@
 - ✅ req.user disponible en todos los controllers
 - ✅ Rutas protegidas con authenticate
 
+- ✅ /partner/new — crear perfil
+- ✅ /cycle/new — registrar ciclo
+- ✅ Dashboard con fase real y recomendaciones
+- ✅ Flujo completo: login → partner → ciclo → recomendaciones
+
 ## Conceptos aprendidos
 - JavaScript: filter, map, some, reduce, destructuring, spread, ?., ??
 - JavaScript: clases, herencia, super, prototype
@@ -60,11 +65,27 @@
 
 ## Estructura del proyecto
 decoded/
-├── frontend/ (pendiente)
+├── frontend/
+│   └── src/
+│       ├── app/ — page.tsx, login/page.tsx, partner/new/page.tsx, cycle/new/page.tsx
+│       ├── app/api/auth/ — [...nextauth]/route.ts, token/route.ts
+│       ├── components/ — Providers.tsx, TagInput.tsx
+│       ├── lib/ — api.ts
+│       ├── middleware.ts
+│       └── types/ — next-auth.d.ts
 └── backend/
     └── src/
-        ├── controllers/ — PartnerController, CycleEntryController
-        ├── services/ — PartnerService, CycleEntryService, CycleService
+        ├── controllers/ — PartnerController, CycleEntryController, RecommendationController, UserController
+        ├── services/ — PartnerService, CycleEntryService, CycleService, RecommendationService
         ├── repositories/ — PartnerRepository, CycleEntryRepository
-        ├── routes/ — partnerRoutes, cycleEntryRoutes
+        ├── routes/ — partnerRoutes, cycleEntryRoutes, recommendationRoutes, userRoutes
+        ├── middlewares/ — authenticate.ts
+        ├── types/ — express.d.ts
         └── lib/ — prisma.ts
+
+
+## Próximos pasos
+- [ ] Signout — botón para cerrar sesión
+- [ ] /partner/edit — editar perfil del partner
+- [ ] Proteger /partner/new y /cycle/new en el middleware de Next.js
+- [ ] Pulir UI general

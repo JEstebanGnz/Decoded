@@ -1,18 +1,41 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { fetchWithAuth } from "@/lib/api";
 
 export default function Home() {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
+  const router = useRouter();
+  const [partner, setPartner] = useState<any>(null);
   const [recommendations, setRecommendations] = useState<{ title: string; description: string }[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
+  const [loadingUser, setLoadingUser] = useState(true);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const data = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/api/users/me`);
+        if (data.user.partners && data.user.partners.length > 0) {
+          setPartner(data.user.partners[0]);
+        }
+      } catch (error) {
+        console.error("Error al obtener usuario:", error);
+      } finally {
+        setLoadingUser(false);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const handleGetRecommendation = async () => {
+    if (!partner?.id) return;
     setLoading(true);
     try {
-      const data = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/api/recommendations/partner-test-001`);
+      const data = await fetchWithAuth(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/recommendations/${partner?.id}`
+      );
       setRecommendations(data.recommendations);
     } catch (error) {
       console.error("Error al obtener recomendación:", error);
@@ -21,28 +44,69 @@ export default function Home() {
     }
   };
 
+  if (loadingUser) {
+    return (
+      <main className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-text-secondary text-sm">Cargando...</p>
+      </main>
+    );
+  }
+
+  if (!partner?.id) {
+    return (
+      <main className="min-h-screen bg-background flex flex-col items-center justify-center p-4 gap-4">
+        <div className="bg-surface border border-border-soft rounded-2xl p-6 w-full max-w-sm flex flex-col items-center gap-4 text-center">
+          <p className="text-4xl">🤍</p>
+          <h2 className="text-lg font-bold text-text-primary">Aún no hay ningún perfil</h2>
+          <p className="text-sm text-text-secondary">
+            Crea el perfil de tu pareja para empezar a recibir recomendaciones personalizadas.
+          </p>
+          <button
+            onClick={() => router.push("/partner/new")}
+            className="w-full bg-primary-500 text-white font-semibold py-3 rounded-xl active:scale-95 transition-transform"
+          >
+            Crear perfil
+          </button>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-background">
-
-      {/* Header */}
-      <header className="bg-surface border-b border-border-soft px-4 py-4">
+      <header className="bg-surface border-b border-border-soft px-4 py-4 flex justify-between items-center">
         <h1 className="text-xl font-bold text-text-primary">Decoded 🤍</h1>
         <p className="text-sm text-text-secondary">Hola, {session?.user?.name?.split(" ")[0]}</p>
       </header>
 
-      {/* Contenido principal */}
       <section className="p-4 flex flex-col gap-4">
 
-        {/* Tarjeta de fase actual */}
         <div className="bg-surface border border-border-soft rounded-2xl p-4">
-          <p className="text-sm text-text-secondary">Fase actual de Kathe</p>
-          <h2 className="text-2xl font-bold text-primary-500 mt-1">Folicular</h2>
-          <p className="text-sm text-text-secondary mt-2">
-            Día 8 del ciclo — Mayor energía y apertura emocional.
-          </p>
+          <p className="text-sm text-text-secondary">Fase actual de {partner?.name}</p>
+          {partner?.cycleEntries?.length > 0 ? (
+            <>
+              <h2 className="text-2xl font-bold text-primary-500 mt-1 capitalize">
+                {partner.cycleEntries[0].currentPhase}
+              </h2>
+              <p className="text-sm text-text-secondary mt-2">
+                Ciclo de {partner.cycleEntries[0].cycleLength} días.
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-sm text-text-secondary mt-2">
+                Aún no hay ciclo registrado.
+              </p>
+              <button
+                onClick={() => router.push("/cycle/new")}
+                className="mt-3 w-full border border-primary-500 text-primary-500 font-semibold py-2 rounded-xl active:scale-95 transition-transform text-sm"
+              >
+                Registrar ciclo
+              </button>
+            </>
+          )}
         </div>
 
-        {/* Tarjeta de recomendaciones */}
         <div className="bg-surface border border-border-soft rounded-2xl p-4">
           <p className="text-sm text-text-secondary mb-3">Recomendaciones de hoy</p>
           <button

@@ -22,7 +22,7 @@ export class PartnerController {
 
             const partner = await this.service.create(
                 {
-                    userId: "43839a64-f841-4bd8-8dce-a85b6a29dd36",
+                    userId: req.user!.id,
                     name,
                     age,
                     likes: likes || [],

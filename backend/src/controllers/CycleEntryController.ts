@@ -1,6 +1,8 @@
 import { CycleEntryService } from "../services/CycleEntryService"
 import { Request, Response } from "express"
+import { PrismaClient } from "@prisma/client"
 
+const prisma = new PrismaClient()
 
 export class CycleEntryController {
 
@@ -21,7 +23,21 @@ export class CycleEntryController {
                 return
             }
 
-            const entry = await this.service.registerCycle(partnerId,
+            // Verificar que el partner pertenece al usuario autenticado
+            const partner = await prisma.partner.findFirst({
+                where: {
+                    id: partnerId,
+                    userId: req.user!.id,
+                },
+            });
+
+            if (!partner) {
+                res.status(403).json({ error: "No tienes permiso para modificar este partner" });
+                return;
+            }
+
+            const entry = await this.service.registerCycle(
+                partnerId,
                 new Date(startDate),
                 cycleLength
             )
@@ -46,8 +62,4 @@ export class CycleEntryController {
             res.status(404).json({ error: "No cycle found for this partner" })
         }
     }
-
-
-
-
 }

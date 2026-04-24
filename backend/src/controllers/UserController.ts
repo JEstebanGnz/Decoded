@@ -1,15 +1,33 @@
 import { Request, Response } from "express";
-import { User } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 
 
 interface AuthRequest extends Request {
-  user?: User;
+    user?: User;
 }
 
+
+const prisma = new PrismaClient()
+
 export class UserController {
-    async getMe(req: AuthRequest, res: Response): Promise<void> {
+
+    async getMe(req: Request, res: Response): Promise<void> {
         try {
-            res.status(200).json({ user: req.user });
+            const user = await prisma.user.findUnique({
+                where: { id: req.user!.id },
+                include: { 
+                    partners: {
+                        include: {
+                            cycleEntries: {
+                                orderBy: {startDate: "desc"},
+                                take:1
+                            }
+                        }
+                    }
+                },
+            });
+
+            res.status(200).json({ user });
         } catch (error: any) {
             res.status(500).json({ error: error.message });
         }
