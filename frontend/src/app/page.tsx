@@ -74,10 +74,6 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background">
-      <header className="bg-surface border-b border-border-soft px-4 py-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-text-primary">Decoded 🤍</h1>
-        <p className="text-sm text-text-secondary">Hola, {session?.user?.name?.split(" ")[0]}</p>
-      </header>
 
       <section className="p-4 flex flex-col gap-4">
 
