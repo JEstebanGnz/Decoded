@@ -28,7 +28,6 @@ export class RecommendationService {
 
         const prompt = this.buildPrompt(partner, latestCycle.currentPhase)
 
-
         const message = await anthropic.messages.create({
             model: "claude-haiku-4-5-20251001",
             max_tokens: 512,
@@ -63,7 +62,7 @@ export class RecommendationService {
     - Fase actual del ciclo menstrual: ${phase}
     
     Genera exactamente 2 recomendaciones concretas y cariñosas para que su pareja 
-    pueda hacerla sentir bien hoy. Sé específico y práctico y a la vez habla con un lenguaje amable y comprensible.
+    pueda hacerla sentir bien hoy. Sé específico y práctico y a la vez habla con un lenguaje amable y comprensible, pero recuerda, sé muy conciso y no te extiendas demasiado.
 
    Responde ÚNICAMENTE con un JSON válido, sin texto adicional, sin backticks, sin explicaciones.
     El formato debe ser exactamente este:

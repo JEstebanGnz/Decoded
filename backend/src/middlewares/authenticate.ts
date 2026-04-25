@@ -11,8 +11,6 @@ export async function authenticate(
 ): Promise<void> {
   try {
     const authHeader = req.headers.authorization;
-    console.log("AUTH HEADER:", authHeader);
-
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       res.status(401).json({ error: "No autorizado" });
       return;

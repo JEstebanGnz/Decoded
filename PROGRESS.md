@@ -17,6 +17,11 @@
 - ✅ POST /api/cycles — registra ciclo y calcula fase automáticamente
 - ✅ GET /api/cycles/:partnerId/status — retorna fase actual + descripción + día
 - ✅ GET /api/recommendations/:partnerId — genera 2 recomendaciones con Claude Haiku
+- ✅ DELETE /api/partners/:id — elimina partner y sus ciclos en cascada
+- ✅ DELETE /api/cycles/:id — elimina entrada de ciclo
+- ✅ GET /api/cycles/:partnerId/history — historial de ciclos
+- ✅ Ownership check en todas las operaciones — via service + repository, sin Prisma en controllers
+- ✅ fetchWithAuth maneja respuestas 204 sin body
 
 ## Estado actual del frontend
 - ✅ Next.js configurado con TypeScript y Tailwind v4
@@ -51,6 +56,9 @@
 - ✅ UI general pulida — login, dashboard, partner/new, partner/edit, cycle/new
 - ✅ PageHeader — componente reutilizable para páginas internas
 - ✅ Design system consistente — inputs, botones, cards, border-radius unificados
+- ✅ ConfirmModal — componente reutilizable para acciones destructivas
+- ✅ Eliminar partner desde /partner/edit
+- ✅ /cycle/history — historial de ciclos con delete por entrada
 
 
 ## Conceptos aprendidos
@@ -83,6 +91,10 @@
 - React: extracción de componentes reutilizables (PageHeader, PartnerForm)
 - CSS: consistencia visual con constantes de clases (inputClass, labelClass)
 - Diseño: sistema de componentes coherente, mismo lenguaje visual en toda la app
+- REST: 204 No Content y por qué no tiene body
+- Arquitectura: ownership check en el service, no en el controller — sin Prisma fuera del repository
+- React: optimistic UI update con filter en lugar de refetch
+- Patrones: un estado (selectedId) haciendo dos trabajos — control de modal + dato a eliminar
 
 ## Estructura del proyecto
 decoded/

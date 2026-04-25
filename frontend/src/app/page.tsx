@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { fetchWithAuth } from "@/lib/api";
+import { PHASE_LABELS } from "@/lib/cycles"
 
 export default function Home() {
   const router = useRouter();
@@ -10,6 +11,7 @@ export default function Home() {
   const [recommendations, setRecommendations] = useState<{ title: string; description: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadingUser, setLoadingUser] = useState(true);
+  
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -74,6 +76,13 @@ export default function Home() {
 
   const latestEntry = partner.cycleEntries?.[0];
 
+  const dayOfCycle = latestEntry
+  ? Math.floor(
+      (new Date().getTime() - new Date(latestEntry.startDate).getTime()) /
+      (1000 * 60 * 60 * 24)
+    ) + 1
+  : null;
+
   return (
     <main className="min-h-screen bg-background">
       <section className="p-4 flex flex-col gap-3">
@@ -85,10 +94,10 @@ export default function Home() {
             {latestEntry ? (
               <>
                 <h2 className="text-3xl font-semibold text-primary-500 tracking-tight leading-none capitalize">
-                  {latestEntry.currentPhase}
+                  {PHASE_LABELS[latestEntry.currentPhase] ?? latestEntry.currentPhase}
                 </h2>
                 <p className="text-sm text-text-secondary mt-2">
-                  Día {latestEntry.dayOfCycle} · Ciclo de {latestEntry.cycleLength} días
+                  Día {dayOfCycle} · Ciclo de {latestEntry.cycleLength} días
                 </p>
               </>
             ) : (
@@ -99,7 +108,12 @@ export default function Home() {
           </div>
           <div className="border-t border-primary-200 bg-primary-50 px-5 py-3 flex justify-between items-center">
             {latestEntry ? (
-              <p className="text-xs text-mauve">Ciclo activo</p>
+              <button
+                onClick={() => router.push("/cycle/history")}
+                className="text-xs font-medium text-primary-800"
+              >
+                Ver historial
+              </button>
             ) : (
               <button
                 onClick={() => router.push("/cycle/new")}

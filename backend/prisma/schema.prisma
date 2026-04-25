@@ -46,7 +46,7 @@ model Partner {
 model CycleEntry {
   id           String   @id @default(uuid())
   partnerId    String
-  partner      Partner  @relation(fields: [partnerId], references: [id])
+  partner      Partner  @relation(fields: [partnerId], references: [id], onDelete : Cascade)
   startDate    DateTime
   cycleLength  Int      @default(28)
   currentPhase CyclePhase

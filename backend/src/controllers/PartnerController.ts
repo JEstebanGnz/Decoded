@@ -51,24 +51,38 @@ export class PartnerController {
     }
 
     async update(req: Request, res: Response): Promise<void> {
-    try {
-        const id = req.params.id as string
-        const { name, age, likes, dislikes, notes } = req.body
-
-        const partner = await this.service.update(id, {
-            name,
-            age,
-            likes,
-            dislikes,
-            notes,
-        })
-
-        res.status(200).json(partner)
-    } catch (error) {
-        console.error("Error updating partner:", error)
-        res.status(500).json({ error: "Internal server error" })
+        try {
+            const { name, age, likes, dislikes, notes } = req.body
+            const id = req.params.id as string
+            const partner = await this.service.update(id, req.user!.id, {
+                name, age, likes, dislikes, notes,
+            })
+            res.status(200).json(partner)
+        } catch (error) {
+            if (error instanceof Error && error.message === "FORBIDDEN") {
+                res.status(403).json({ error: "No tienes permiso para modificar este partner" })
+                return
+            }
+            res.status(500).json({ error: "Internal server error" })
+        }
     }
-}
+
+    async delete(req: Request, res: Response): Promise<void> {
+        try {
+            const id = req.params.id as string
+            await this.service.delete(id, req.user!.id)
+            res.status(204).send()
+        } catch (error) {
+            if (error instanceof Error && error.message === "FORBIDDEN") {
+                res.status(403).json({ error: "No tienes permiso para eliminar este partner" })
+                return
+            }
+            console.log(error)
+            res.status(500).json({ error: "Internal server error" })
+        }
+    }
+
+
 
 
 }

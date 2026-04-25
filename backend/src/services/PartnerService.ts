@@ -32,12 +32,16 @@ export class PartnerService {
         return partner
     }
 
-    async update(id: string, data: Partial<Omit<Partner, "id" | "createdAt">>): Promise<Partner> {
-        const existing = await this.repository.findById(id)
-        if (!existing) {
-            throw new Error(`Partner with id ${id} not found`)
-        }
+    async update(id: string, userId: string, data: Partial<Omit<Partner, "id" | "createdAt">>): Promise<Partner> {
+        const partner = await this.repository.findByIdAndUserId(id, userId)
+        if (!partner) throw new Error("FORBIDDEN")
         return this.repository.update(id, data)
+    }
+
+        async delete(id: string, userId: string): Promise<void> {
+        const partner = await this.repository.findByIdAndUserId(id, userId)
+        if (!partner) throw new Error("FORBIDDEN")
+        await this.repository.deleteById(id)
     }
 
 
