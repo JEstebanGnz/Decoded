@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchWithAuth } from "@/lib/api";
+import PageHeader from "@/components/PageHeader";
+
 
 export default function NewCyclePage() {
   const router = useRouter();
@@ -54,15 +56,7 @@ export default function NewCyclePage() {
 
   return (
     <main className="min-h-screen bg-background">
-      <header className="bg-surface border-b border-border-soft px-4 py-4 flex items-center gap-3">
-        <button
-          onClick={() => router.back()}
-          className="text-text-secondary text-sm"
-        >
-          ← Volver
-        </button>
-        <h1 className="text-lg font-bold text-text-primary">Registrar ciclo</h1>
-      </header>
+      <PageHeader title="Nuevo ciclo" />
 
       <section className="p-4 flex flex-col gap-4">
         <div className="bg-surface border border-border-soft rounded-2xl p-4 flex flex-col gap-4">

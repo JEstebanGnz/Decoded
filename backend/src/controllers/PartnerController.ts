@@ -49,4 +49,26 @@ export class PartnerController {
             res.status(500).json({ error: "Partner not found" })
         }
     }
+
+    async update(req: Request, res: Response): Promise<void> {
+    try {
+        const id = req.params.id as string
+        const { name, age, likes, dislikes, notes } = req.body
+
+        const partner = await this.service.update(id, {
+            name,
+            age,
+            likes,
+            dislikes,
+            notes,
+        })
+
+        res.status(200).json(partner)
+    } catch (error) {
+        console.error("Error updating partner:", error)
+        res.status(500).json({ error: "Internal server error" })
+    }
+}
+
+
 }

@@ -27,6 +27,9 @@ const DEFAULT_FORM: PartnerFormData = {
   dislikes: [],
 };
 
+const inputClass = "border border-border-soft rounded-2xl px-4 py-3 text-sm text-text-primary bg-surface focus:outline-none focus:border-primary-500 transition-colors";
+const labelClass = "text-sm font-medium text-text-primary";
+
 export default function PartnerForm({
   initialData = DEFAULT_FORM,
   onSubmit,
@@ -46,29 +49,29 @@ export default function PartnerForm({
 
   return (
     <div className="p-4 flex flex-col gap-4">
-      <div className="bg-surface border border-border-soft rounded-2xl p-4 flex flex-col gap-4">
+      <div className="bg-surface border border-border-soft rounded-[18px] p-5 flex flex-col gap-5">
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-text-primary">Nombre</label>
+          <label className={labelClass}>Nombre</label>
           <input
             type="text"
             name="name"
             value={form.name}
             onChange={handleChange}
             placeholder="¿Cómo se llama?"
-            className="border border-border-soft rounded-xl px-3 py-2 text-sm text-text-primary bg-surface focus:outline-none focus:border-primary-500"
+            className={inputClass}
           />
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-text-primary">Edad</label>
+          <label className={labelClass}>Edad</label>
           <input
             type="number"
             name="age"
             value={form.age}
             onChange={handleChange}
             placeholder="¿Cuántos años tiene?"
-            className="border border-border-soft rounded-xl px-3 py-2 text-sm text-text-primary bg-surface focus:outline-none focus:border-primary-500"
+            className={inputClass}
           />
         </div>
 
@@ -87,27 +90,25 @@ export default function PartnerForm({
         />
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-text-primary">Notas adicionales</label>
+          <label className={labelClass}>Notas adicionales</label>
           <textarea
             name="notes"
             value={form.notes}
             onChange={handleChange}
             placeholder="Algo más que consideres relevante de tu pareja..."
             rows={3}
-            className="border border-border-soft rounded-xl px-3 py-2 text-sm text-text-primary bg-surface focus:outline-none focus:border-primary-500 resize-none"
+            className={`${inputClass} resize-none`}
           />
         </div>
 
       </div>
 
-      {error && (
-        <p className="text-error text-sm text-center">{error}</p>
-      )}
+      {error && <p className="text-error text-sm text-center">{error}</p>}
 
       <button
         onClick={handleSubmit}
         disabled={isDisabled}
-        className="w-full bg-primary-500 text-white font-semibold py-3 rounded-xl active:scale-95 transition-transform disabled:opacity-50"
+        className="w-full bg-primary-500 text-white font-semibold py-4 rounded-2xl active:scale-95 transition-transform disabled:opacity-50 text-[15px] tracking-tight"
       >
         {loading ? "Guardando..." : submitLabel}
       </button>

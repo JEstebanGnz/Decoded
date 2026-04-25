@@ -41,6 +41,18 @@
 - ✅ Dashboard con fase real y recomendaciones
 - ✅ Flujo completo: login → partner → ciclo → recomendaciones
 
+- ✅ Signout — botón para cerrar sesión
+- ✅ AppHeader — componente separado con sesión y signout
+- ✅ /partner/edit — editar perfil del partner
+- ✅ Proteger /partner/new, /partner/edit y /cycle/new en middleware
+- ✅ PartnerForm — componente reutilizable (new y edit comparten el mismo form)
+- ✅ UI general pulida — jerarquía tipográfica, cards con footer, design system consistente
+
+- ✅ UI general pulida — login, dashboard, partner/new, partner/edit, cycle/new
+- ✅ PageHeader — componente reutilizable para páginas internas
+- ✅ Design system consistente — inputs, botones, cards, border-radius unificados
+
+
 ## Conceptos aprendidos
 - JavaScript: filter, map, some, reduce, destructuring, spread, ?., ??
 - JavaScript: clases, herencia, super, prototype
@@ -62,6 +74,15 @@
 - Env vars: NEXT_PUBLIC_ en Next.js
 - DB: seeding con Prisma, upsert
 - PostgreSQL: instalación con Homebrew, configuración local
+- Next.js: middleware con withAuth, matcher de rutas protegidas
+- React: extracción de componentes reutilizables, separación de responsabilidades
+- Diseño: jerarquía visual, consistencia de design system, mobile-first polish
+- next-auth: signOut, status de sesión, callbackUrl
+- REST: diferencia semántica entre PATCH y PUT
+- Arquitectura: DRY principle aplicado a formularios
+- React: extracción de componentes reutilizables (PageHeader, PartnerForm)
+- CSS: consistencia visual con constantes de clases (inputClass, labelClass)
+- Diseño: sistema de componentes coherente, mismo lenguaje visual en toda la app
 
 ## Estructura del proyecto
 decoded/
